@@ -2,6 +2,10 @@ package com.qubit.core_vhal
 
 import android.car.VehiclePropertyIds
 import android.car.hardware.CarPropertyValue
+import android.car.hardware.property.CarPropertyManager
+import android.util.Log
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.update
 
 fun mapPropertyToState(
     value: CarPropertyValue<*>,
@@ -47,6 +51,7 @@ fun mapPropertyToState(
 
         // --- ELECTRICAL & BODY ---
         VehiclePropertyIds.EV_BATTERY_LEVEL -> currentState.copy(evBatteryLevel = value.value as Float)
+        VehiclePropertyIds.EV_BATTERY_DISPLAY_UNITS -> currentState.copy(evBatteryUnits = value.value as String)
         VehiclePropertyIds.EV_CHARGE_PORT_CONNECTED -> currentState.copy(isEvChargePortConnected = value.value as Boolean)
         VehiclePropertyIds.DOOR_LOCK ->
             // Door lock can be per-door (areaId).
@@ -58,6 +63,27 @@ fun mapPropertyToState(
         VehiclePropertyIds.OBD2_FREEZE_FRAME -> currentState.copy(obdFreezeFrame = value.value.toString())
 
         else -> currentState
+    }
+}
+
+fun readStaticValue(propertyManager: CarPropertyManager?, id: Int, currentState: MutableStateFlow<VhalParamsState>) {
+    val manager = propertyManager ?: return
+    try {
+        val value = manager.getProperty<Any>(id, 0).value
+        currentState.update { currentState ->
+            when (id) {
+                VehiclePropertyIds.INFO_VIN -> currentState.copy(vin = value as String)
+                VehiclePropertyIds.INFO_FUEL_TYPE -> currentState.copy(fuelType = value as Array<Int>)
+                VehiclePropertyIds.INFO_MAKE -> currentState.copy(make = value as String)
+                VehiclePropertyIds.INFO_MODEL -> currentState.copy(model = value as String)
+                VehiclePropertyIds.INFO_MODEL_YEAR -> currentState.copy(modelYear = value as Int)
+                VehiclePropertyIds.INFO_FUEL_CAPACITY -> currentState.copy(fuelCapacity = value as Float)
+                VehiclePropertyIds.INFO_EV_BATTERY_CAPACITY -> currentState.copy(evBatteryCapacity = value as Float)
+                else -> currentState
+            }
+        }
+    } catch (e: Exception) {
+        Log.w("VHAL", "Could not read static property $id, error: $e")
     }
 }
 
