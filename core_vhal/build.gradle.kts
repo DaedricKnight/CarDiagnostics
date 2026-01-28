@@ -44,7 +44,12 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     implementation(libs.hilt.android)
+    implementation(libs.io.mock)
     ksp(libs.hilt.compiler)
     implementation(libs.androidx.lifecycle.runtime.ktx)
-    compileOnly(files("${android.sdkDirectory}/platforms/android-33/optional/android.car.jar"))
+    val carJar = files("${android.sdkDirectory}/platforms/android-33/optional/android.car.jar")
+    compileOnly(carJar)
+    testImplementation(carJar)
+    testImplementation(libs.coroutines.test)
+    testImplementation(libs.robolectric)
 }
