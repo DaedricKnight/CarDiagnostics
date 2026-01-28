@@ -2,6 +2,7 @@ package com.qubit.core_vhal
 
 import android.car.Car
 import android.car.VehiclePropertyIds
+import android.car.hardware.CarPropertyConfig
 import android.car.hardware.CarPropertyValue
 import android.car.hardware.property.CarPropertyManager
 import android.content.Context
@@ -31,84 +32,55 @@ class VhalReaderImpl(private val context: Context): VhalReader {
     }
 
     override fun connect() {
-        car = Car.createCar(context, null, Car.CAR_WAIT_TIMEOUT_WAIT_FOREVER) { car, ready ->
+        car = Car.createCar(context, null, Car.CAR_WAIT_TIMEOUT_WAIT_FOREVER) { carInstance, ready ->
             if (ready) {
-                propertyManager = car?.getCarManager(Car.PROPERTY_SERVICE) as? CarPropertyManager
-                registerProperties()
+                propertyManager = carInstance.getCarManager(Car.PROPERTY_SERVICE) as CarPropertyManager
+                registerSensors()
             }
         }
     }
 
-    private fun registerProperties() {
+    private fun registerSensors() {
         val manager = propertyManager ?: return
+        val configs = manager.propertyList
 
-        val availableConfigs = manager.propertyList
-        val availableIds = availableConfigs.map { it.propertyId }.toSet()
+        configs.forEach { config ->
+            val id = config.propertyId
 
-        val propertiesToSubscribe = intArrayOf(
-            // Main driving data
-            VehiclePropertyIds.GEAR_SELECTION,
-            VehiclePropertyIds.PARKING_BRAKE_ON,
-            VehiclePropertyIds.FUEL_LEVEL,
-            VehiclePropertyIds.INFO_FUEL_CAPACITY,
-            VehiclePropertyIds.FUEL_LEVEL_LOW,
-            VehiclePropertyIds.ENGINE_OIL_LEVEL,
-            VehiclePropertyIds.RANGE_REMAINING,
-            VehiclePropertyIds.ENV_OUTSIDE_TEMPERATURE,
-
-
-            // --- ENGINE AND MAINTENANCE PARAMETERS ---
-            VehiclePropertyIds.ENGINE_COOLANT_TEMP,     // Coolant temperature (overheating monitoring)
-            VehiclePropertyIds.ENGINE_OIL_TEMP,         // Oil temperature (load monitoring)
-            VehiclePropertyIds.ENGINE_RPM,              // Engine revolutions per minute (idle check)
-            VehiclePropertyIds.IGNITION_STATE,          // Ignition system status
-            VehiclePropertyIds.PERF_ODOMETER,           // Total distance traveled (maintenance tracking)
-
-            // --- SAFETY SYSTEMS ---
-            VehiclePropertyIds.ABS_ACTIVE,              // ABS engagement (sensor/system health)
-            VehiclePropertyIds.TRACTION_CONTROL_ACTIVE, // Traction control system status
-            VehiclePropertyIds.TIRE_PRESSURE,           // Tire pressure monitoring (per wheel)
-            VehiclePropertyIds.CRITICALLY_LOW_TIRE_PRESSURE, // Critical tire pressure warning threshold
-
-            // --- ELECTRICAL AND BODY ---
-            VehiclePropertyIds.EV_BATTERY_LEVEL,        // Battery charge level (for EV/Hybrid models)
-            VehiclePropertyIds.EV_CHARGE_PORT_CONNECTED,// Charging port connection status
-            VehiclePropertyIds.DOOR_LOCK,               // Central locking system status
-
-            // --- LIGHTS ---
-            VehiclePropertyIds.TURN_SIGNAL_STATE,
-            VehiclePropertyIds.HEADLIGHTS_STATE,
-            VehiclePropertyIds.HIGH_BEAM_LIGHTS_STATE,
-            VehiclePropertyIds.NIGHT_MODE,
-
-            // --- EV CHARGE ---
-            VehiclePropertyIds.EV_CHARGE_STATE,
-            VehiclePropertyIds.EV_CHARGE_TIME_REMAINING,
-            VehiclePropertyIds.EV_REGENERATIVE_BRAKING_STATE,
-            VehiclePropertyIds.INFO_EV_BATTERY_CAPACITY,
-
-            // --- INFO ---
-            VehiclePropertyIds.INFO_VIN,
-            VehiclePropertyIds.INFO_FUEL_TYPE,
-            VehiclePropertyIds.INFO_MAKE,
-            VehiclePropertyIds.INFO_MODEL,
-            VehiclePropertyIds.INFO_MODEL_YEAR,
-
-            // --- OBD2 SPECIFICATION ---
-            VehiclePropertyIds.OBD2_LIVE_FRAME,         // Real-time OBD diagnostic data stream
-            VehiclePropertyIds.OBD2_FREEZE_FRAME        // Snapshot of data stored when a fault occurs
-        )
-
-        propertiesToSubscribe.forEach { id ->
-            if (availableIds.contains(id)) {
-                manager.registerCallback(
-                    propertyCallback,
-                    id,
-                    CarPropertyManager.SENSOR_RATE_ONCHANGE
-                )
+            if (config.changeMode != CarPropertyConfig.VEHICLE_PROPERTY_CHANGE_MODE_STATIC) {
+                try {
+                    manager.registerCallback(
+                        propertyCallback,
+                        id,
+                        CarPropertyManager.SENSOR_RATE_ONCHANGE
+                    )
+                } catch (e: SecurityException) {
+                    Log.e("VHAL", "No permission to register property: $id")
+                }
             } else {
-                Log.w("VHAL_LIB", "Property ID $id is not supported by this vehicle")
+                readStaticValue(id)
             }
+        }
+    }
+
+    private fun readStaticValue(id: Int) {
+        val manager = propertyManager ?: return
+        try {
+            val value = manager.getProperty<Any>(id, 0).value
+            _carState.update { currentState ->
+                when (id) {
+                    VehiclePropertyIds.INFO_VIN -> currentState.copy(vin = value as String)
+                    VehiclePropertyIds.INFO_FUEL_TYPE -> currentState.copy(fuelType = value as Array<Int>)
+                    VehiclePropertyIds.INFO_MAKE -> currentState.copy(make = value as String)
+                    VehiclePropertyIds.INFO_MODEL -> currentState.copy(model = value as String)
+                    VehiclePropertyIds.INFO_MODEL_YEAR -> currentState.copy(modelYear = value as Int)
+                    VehiclePropertyIds.INFO_FUEL_CAPACITY -> currentState.copy(fuelCapacity = value as Float)
+                    VehiclePropertyIds.INFO_EV_BATTERY_CAPACITY -> currentState.copy(evBatteryCapacity = value as Float)
+                    else -> currentState
+                }
+            }
+        } catch (e: Exception) {
+            Log.w("VHAL", "Could not read static property $id, error: $e")
         }
     }
 
