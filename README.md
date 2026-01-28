@@ -3,7 +3,7 @@
 An example of diagnostic tool for Android Automotive OS (AAOS) to monitor Vehicle Hardware Abstraction Layer (VHAL) properties in real-time. Built with a focus on modular architecture and modern Android stack.
 
 ## Warning!
-You can use this app with real vehicles only when it's parked. AAOS restricts ising app while driving.
+You can use this app with real vehicles only when it's parked. AAOS restricts using app while driving.
 
 ## Screenshots
 info data:
