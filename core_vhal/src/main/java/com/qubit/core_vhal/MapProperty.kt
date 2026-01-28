@@ -12,7 +12,6 @@ fun mapPropertyToState(
         VehiclePropertyIds.GEAR_SELECTION -> currentState.copy(gear = value.value as Int)
         VehiclePropertyIds.PARKING_BRAKE_ON -> currentState.copy(isParkingBrakeOn = value.value as Boolean)
         VehiclePropertyIds.FUEL_LEVEL -> currentState.copy(fuelLevel = value.value as Float)
-        VehiclePropertyIds.INFO_FUEL_CAPACITY -> currentState.copy(fuelCapacity = value.value as Float)
         VehiclePropertyIds.FUEL_LEVEL_LOW -> currentState.copy(isFuelLow = value.value as Boolean)
         VehiclePropertyIds.ENGINE_OIL_LEVEL -> currentState.copy(oilLevel = value.value as Float)
         VehiclePropertyIds.RANGE_REMAINING -> currentState.copy(range = value.value as Float)
@@ -35,15 +34,6 @@ fun mapPropertyToState(
         VehiclePropertyIds.EV_CHARGE_STATE -> currentState.copy(evCharge = value.value as Int)
         VehiclePropertyIds.EV_CHARGE_TIME_REMAINING -> currentState.copy(evChargeTime = value.value as Int)
         VehiclePropertyIds.EV_REGENERATIVE_BRAKING_STATE -> currentState.copy(isEvRecuperate = value.value as Int)
-        VehiclePropertyIds.INFO_EV_BATTERY_CAPACITY -> currentState.copy(evBatteryCapacity = value.value as Float)
-
-        // --- INFO ---
-        VehiclePropertyIds.INFO_VIN -> currentState.copy(vin = value.value as String)
-        VehiclePropertyIds.INFO_FUEL_TYPE -> currentState.copy(fuelType = value.value as Array<Int>)
-        VehiclePropertyIds.INFO_MAKE -> currentState.copy(make = value.value as String)
-        VehiclePropertyIds.INFO_MODEL -> currentState.copy(model = value.value as String)
-        VehiclePropertyIds.INFO_MODEL_YEAR -> currentState.copy(modelYear = value.value as Int)
-
 
         // --- SAFETY SYSTEMS ---
         VehiclePropertyIds.ABS_ACTIVE -> currentState.copy(isAbsActive = value.value as Boolean)
