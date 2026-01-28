@@ -1,38 +1,34 @@
 package com.qubit.core_vhal
 
 data class VhalParamsState(
-    // --- Main Driving Data ---
     val gear: Int = 0,
     val isParkingBrakeOn: Boolean = false,
     val odometer: Float = 0f,
     val rpm: Int = 0,
     val range: Float = 0f,
 
-    // --- Fuel and Energy ---
     val fuelLevel: Float = 0f,
     val isFuelLow: Boolean = false,
-    val evBatteryLevel: Float = 0f,           // Battery charge level
-    val isEvChargePortConnected: Boolean = false, // Charging status
+    val evBatteryLevel: Float = 0f,
+    val isEvChargePortConnected: Boolean = false,
 
-    // --- Engine and Maintenance ---
     val coolantTemp: Float = 0f,
     val oilLevel: Float = 0f,
-    val oilTemp: Float = 0f,                  // Engine oil temperature
-    val ignitionState: Int = 0,               // Ignition system status (Locked/Off/Acc/On/Start)
+    val oilTemp: Float = 0f,
+    val ignitionState: Int = 0,
 
-    // --- Safety and Chassis ---
     val tirePressures: Map<Int, Float> = emptyMap(),
-    val isCriticallyLowTirePressure: Boolean = false, // Critical pressure alert
-    val isAbsActive: Boolean = false,         // ABS engagement status
-    val isTractionControlActive: Boolean = false, // Traction control status
-    val isDoorLocked: Boolean = true,         // Central locking status (using Boolean for simplicity)
+    val isCriticallyLowTirePressure: Boolean = false,
+    val isAbsActive: Boolean = false,
+    val isTractionControlActive: Boolean = false,
+    val isDoorLocked: Boolean = true,
 
-    // --- Diagnostic / OBD Specification ---
     val isCheckEngineOn: Boolean = false,
     val activeDTCs: List<String> = emptyList(),
     val obdData: String = "",
     val obdFreezeFrame: String = "",           // Data snapshot on fault
     val fuelCapacity: Float = 0f,
+    val fuelCapacityType: String = "",
     val outsideTemp: Float = 0f,
     val turnSignal: Int = 0,
     val headLightState: Int = 0,
@@ -47,6 +43,7 @@ data class VhalParamsState(
     val model: String = "",
     val modelYear: Int = 0,
     val evBatteryCapacity: Float = 0f,
+    val evBatteryUnits: String = ""
 ) {
     companion object {
         val initial = VhalParamsState()
@@ -91,10 +88,12 @@ data class VhalParamsState(
         if (activeDTCs != other.activeDTCs) return false
         if (obdData != other.obdData) return false
         if (obdFreezeFrame != other.obdFreezeFrame) return false
+        if (fuelCapacityType != other.fuelCapacityType) return false
         if (vin != other.vin) return false
         if (!fuelType.contentEquals(other.fuelType)) return false
         if (make != other.make) return false
         if (model != other.model) return false
+        if (evBatteryUnits != other.evBatteryUnits) return false
 
         return true
     }
@@ -133,10 +132,13 @@ data class VhalParamsState(
         result = 31 * result + activeDTCs.hashCode()
         result = 31 * result + obdData.hashCode()
         result = 31 * result + obdFreezeFrame.hashCode()
+        result = 31 * result + fuelCapacityType.hashCode()
         result = 31 * result + vin.hashCode()
         result = 31 * result + fuelType.contentHashCode()
         result = 31 * result + make.hashCode()
         result = 31 * result + model.hashCode()
+        result = 31 * result + evBatteryUnits.hashCode()
         return result
     }
+
 }

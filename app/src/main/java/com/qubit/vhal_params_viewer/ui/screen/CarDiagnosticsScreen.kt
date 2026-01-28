@@ -48,9 +48,9 @@ fun VhalParamsScreen(viewModel: CarDiagnosticsViewModel = hiltViewModel()) {
 
         item { Header("Fuel & Energy") }
         item { ParamRow("Fuel Level", "${state.fuelLevel} ml") }
-        item { ParamRow("Fuel Capacity", "${state.fuelCapacity} L") }
+        item { ParamRow("Fuel Capacity", "${state.fuelCapacity} ml") }
         item { ParamRow("Low Fuel", state.isFuelLow.toString(), isAlert = state.isFuelLow) }
-        item { ParamRow("EV Battery", "${state.evBatteryLevel} w/h") }
+        item { ParamRow("EV Battery", "${state.evBatteryLevel} ${state.evBatteryUnits}") }
         item { ParamRow("Charge Connected", state.isEvChargePortConnected.toString()) }
 
         item { Header("Engine & Maintenance") }

@@ -1,7 +1,6 @@
 package com.qubit.core_vhal
 
 import android.car.Car
-import android.car.VehiclePropertyIds
 import android.car.hardware.CarPropertyConfig
 import android.car.hardware.CarPropertyValue
 import android.car.hardware.property.CarPropertyManager
@@ -58,29 +57,8 @@ class VhalReaderImpl(private val context: Context): VhalReader {
                     Log.e("VHAL", "No permission to register property: $id")
                 }
             } else {
-                readStaticValue(id)
+                readStaticValue(propertyManager, id, _carState)
             }
-        }
-    }
-
-    private fun readStaticValue(id: Int) {
-        val manager = propertyManager ?: return
-        try {
-            val value = manager.getProperty<Any>(id, 0).value
-            _carState.update { currentState ->
-                when (id) {
-                    VehiclePropertyIds.INFO_VIN -> currentState.copy(vin = value as String)
-                    VehiclePropertyIds.INFO_FUEL_TYPE -> currentState.copy(fuelType = value as Array<Int>)
-                    VehiclePropertyIds.INFO_MAKE -> currentState.copy(make = value as String)
-                    VehiclePropertyIds.INFO_MODEL -> currentState.copy(model = value as String)
-                    VehiclePropertyIds.INFO_MODEL_YEAR -> currentState.copy(modelYear = value as Int)
-                    VehiclePropertyIds.INFO_FUEL_CAPACITY -> currentState.copy(fuelCapacity = value as Float)
-                    VehiclePropertyIds.INFO_EV_BATTERY_CAPACITY -> currentState.copy(evBatteryCapacity = value as Float)
-                    else -> currentState
-                }
-            }
-        } catch (e: Exception) {
-            Log.w("VHAL", "Could not read static property $id, error: $e")
         }
     }
 
