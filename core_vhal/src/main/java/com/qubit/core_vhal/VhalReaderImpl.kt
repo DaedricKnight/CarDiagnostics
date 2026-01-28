@@ -54,7 +54,7 @@ class VhalReaderImpl(private val context: Context): VhalReader {
                         CarPropertyManager.SENSOR_RATE_ONCHANGE
                     )
                 } catch (e: SecurityException) {
-                    Log.e("VHAL", "No permission to register property: $id")
+                    Log.e("VHAL", "No permission to register property: $id, error: $e")
                 }
             } else {
                 readStaticValue(propertyManager, id, _carState)
