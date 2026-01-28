@@ -7,13 +7,18 @@ You can use this app with real vehicles only when it's parked. AAOS restricts is
 
 ## Screenshots
 info data:
+
 <img width="1408" height="792" alt="image" src="https://github.com/user-attachments/assets/3662fe75-8160-4c9e-9a5c-a07e39839af6" />
 
+
 Main driving data:
+
 <img width="1408" height="792" alt="image" src="https://github.com/user-attachments/assets/9db8a84f-3c71-4aca-acc7-e971dc81162c" />
 
+
 Fuel and energy data:
-<img width="1408" height="792" alt="image" src="https://github.com/user-attachments/assets/357455a0-32dc-4119-8caf-be39edb2a49c" />
+
+<img width="1408" height="792" alt="image" src="https://github.com/user-attachments/assets/d69dda44-0a75-4ece-85ca-da69376c31cd" />
 
 
 
