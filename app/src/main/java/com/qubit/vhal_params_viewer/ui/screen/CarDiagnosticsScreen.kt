@@ -65,15 +65,15 @@ fun VhalParamsScreen(viewModel: CarDiagnosticsViewModel = hiltViewModel()) {
         item { ParamRow("Door Locked", state.isDoorLocked.toString()) }
 
         item { Header("Lights") }
-        item { ParamRow("TURN_SIGNAL_STATE", state.turnSignal.toString()) }
-        item { ParamRow("HEADLIGHTS_STATE", state.headLightState.toString()) }
-        item { ParamRow("HIGH_BEAM_LIGHTS_STATE", state.highBeamState.toString()) }
-        item { ParamRow("NIGHT_MODE", state.nighMode.toString()) }
+        item { ParamRow("Turn signal state", state.turnSignal.toString()) }
+        item { ParamRow("Headlights state", state.headLightState.toString()) }
+        item { ParamRow("High bean lights state", state.highBeamState.toString()) }
+        item { ParamRow("Night mode", state.nighMode.toString()) }
 
         item { Header("EV charge") }
-        item { ParamRow("EV_CHARGE_STATE", state.evCharge.toString()) }
-        item { ParamRow("EV_CHARGE_TIME_REMAINING", state.evChargeTime.toString()) }
-        item { ParamRow("EV_REGENERATIVE_BRAKING_STATE", state.isEvRecuperate.toString()) }
+        item { ParamRow("EV charge state", state.evCharge.toString()) }
+        item { ParamRow("EV charge time remaining", state.evChargeTime.toString()) }
+        item { ParamRow("EV regenerative breaking state", state.isEvRecuperate.toString()) }
         item { ParamRow("EV Battery Capacity", state.evBatteryCapacity.toString()) }
 
         // Dynamic Tire Pressure Rows
