@@ -43,7 +43,8 @@ data class VhalParamsState(
     val model: String = "",
     val modelYear: Int = 0,
     val evBatteryCapacity: Float = 0f,
-    val evBatteryUnits: String = ""
+    val evBatteryUnits: String = "",
+    val tempUnit: String = ""
 ) {
     companion object {
         val initial = VhalParamsState()
@@ -94,6 +95,7 @@ data class VhalParamsState(
         if (make != other.make) return false
         if (model != other.model) return false
         if (evBatteryUnits != other.evBatteryUnits) return false
+        if (tempUnit != other.tempUnit) return false
 
         return true
     }
@@ -138,6 +140,7 @@ data class VhalParamsState(
         result = 31 * result + make.hashCode()
         result = 31 * result + model.hashCode()
         result = 31 * result + evBatteryUnits.hashCode()
+        result = 31 * result + tempUnit.hashCode()
         return result
     }
 

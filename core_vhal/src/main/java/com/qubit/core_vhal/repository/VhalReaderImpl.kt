@@ -1,4 +1,4 @@
-package com.qubit.core_vhal
+package com.qubit.core_vhal.repository
 
 import android.car.Car
 import android.car.hardware.CarPropertyConfig
@@ -6,17 +6,24 @@ import android.car.hardware.CarPropertyValue
 import android.car.hardware.property.CarPropertyManager
 import android.content.Context
 import android.util.Log
+import com.qubit.core_vhal.VhalParamsState
+import com.qubit.core_vhal.mapPropertyToState
+import com.qubit.core_vhal.readStaticValue
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import javax.inject.Inject
 
-class VhalReaderImpl(private val context: Context): VhalReader {
+class VhalReaderImpl @Inject constructor(private val context: Context): VhalReader {
     private var car: Car? = null
     private var propertyManager: CarPropertyManager? = null
 
-    private val _carState = MutableStateFlow(VhalParamsState.initial)
+    private val _carState = MutableStateFlow(VhalParamsState.Companion.initial)
     override val carState: StateFlow<VhalParamsState> = _carState.asStateFlow()
+
+    private val _isConnected = MutableStateFlow(false)
+    override val isConnected: StateFlow<Boolean> = _isConnected.asStateFlow()
 
     private val propertyCallback = object : CarPropertyManager.CarPropertyEventCallback {
         override fun onChangeEvent(value: CarPropertyValue<*>) {
@@ -37,6 +44,7 @@ class VhalReaderImpl(private val context: Context): VhalReader {
                 registerSensors()
             }
         }
+        _isConnected.value = true
     }
 
     private fun registerSensors() {
@@ -65,5 +73,6 @@ class VhalReaderImpl(private val context: Context): VhalReader {
     override fun disconnect() {
         propertyManager?.unregisterCallback(propertyCallback)
         car?.disconnect()
+        _isConnected.value = false
     }
 }

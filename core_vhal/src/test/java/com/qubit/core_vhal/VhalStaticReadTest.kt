@@ -35,7 +35,7 @@ class VhalStaticReadTest {
         mockkStatic(android.util.Log::class)
         every { android.util.Log.w(any(), any<String>()) } returns 0
 
-        val stateFlow = MutableStateFlow(VhalParamsState(vin = "OLD_VIN"))
+        val stateFlow = MutableStateFlow(VhalParamsState(vin = "OLD_VIN",))
         val mockManager = mockk<CarPropertyManager>()
 
         every {

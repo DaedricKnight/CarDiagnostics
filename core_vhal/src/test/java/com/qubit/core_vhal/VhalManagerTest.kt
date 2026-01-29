@@ -7,6 +7,7 @@ import android.car.hardware.CarPropertyValue
 import android.car.hardware.property.CarPropertyManager
 import android.content.Context
 import android.util.Log
+import com.qubit.core_vhal.repository.VhalReaderImpl
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.mockkStatic
