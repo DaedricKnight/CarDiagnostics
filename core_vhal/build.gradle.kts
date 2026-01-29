@@ -17,6 +17,10 @@ android {
         consumerProguardFiles("consumer-rules.pro")
     }
 
+    buildFeatures {
+        buildConfig = true
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = false
@@ -44,7 +48,7 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     implementation(libs.hilt.android)
-    implementation(libs.io.mock)
+    testImplementation(libs.io.mock)
     ksp(libs.hilt.compiler)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     val carJar = files("${android.sdkDirectory}/platforms/android-33/optional/android.car.jar")

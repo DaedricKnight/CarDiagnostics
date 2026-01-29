@@ -79,6 +79,7 @@ fun readStaticValue(propertyManager: CarPropertyManager?, id: Int, currentState:
                 VehiclePropertyIds.INFO_MODEL_YEAR -> currentState.copy(modelYear = value as Int)
                 VehiclePropertyIds.INFO_FUEL_CAPACITY -> currentState.copy(fuelCapacity = value as Float)
                 VehiclePropertyIds.INFO_EV_BATTERY_CAPACITY -> currentState.copy(evBatteryCapacity = value as Float)
+                VehiclePropertyIds.HVAC_TEMPERATURE_DISPLAY_UNITS -> currentState.copy(tempUnit = value as String)
                 else -> currentState
             }
         }
