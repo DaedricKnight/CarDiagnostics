@@ -43,7 +43,7 @@ class ViewModelTest {
     fun `uiState should reflect changes from vhalManager`() = runTest {
         val movingState = VhalParamsState(
             gear = 4,
-            rpm = 3000,,
+            rpm = 3000,
         )
 
         fakeCarState.value = movingState
