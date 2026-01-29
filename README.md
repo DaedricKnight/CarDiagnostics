@@ -8,26 +8,31 @@ You can use this app with real vehicles only when it's parked. AAOS restricts us
 ## Screenshots
 info data:
 
-<img width="1408" height="792" alt="image" src="https://github.com/user-attachments/assets/e92ddf1e-31e6-4458-b9ec-0396330d253e" />
+<img width="1408" height="792" alt="image" src="https://github.com/user-attachments/assets/bc9adf1d-92e0-4662-8e1c-f9f536c13da2" />
 
 
 Main driving data:
 
-<img width="1408" height="792" alt="image" src="https://github.com/user-attachments/assets/9ef49363-8ddf-4200-b68e-227d432e39d3" />
+<img width="1408" height="792" alt="image" src="https://github.com/user-attachments/assets/631128ba-9f2c-4ca8-a080-3b889e1cf9df" />
 
-<img width="1408" height="792" alt="image" src="https://github.com/user-attachments/assets/a8156dcc-904c-4e9b-beab-58fe1fd2b6ae" />
+
+<img width="1408" height="792" alt="image" src="https://github.com/user-attachments/assets/75927c08-e2b1-4f32-8076-d81d20d0e3af" />
 
 
 
 Fuel and energy data:
 
-<img width="1408" height="792" alt="image" src="https://github.com/user-attachments/assets/44b455b0-a7f2-4906-84ad-34c79b431c1f" />
+<img width="1408" height="792" alt="image" src="https://github.com/user-attachments/assets/1f77d63b-0f51-40cd-a3e3-7e9d063b4591" />
+
 
 Switching between mock and real data:
 
 
 
-https://github.com/user-attachments/assets/e520d290-50e4-4d38-9823-8b5a0f70363a
+
+
+https://github.com/user-attachments/assets/f2ef6825-503a-479b-aa99-4442184ac19d
+
 
 
 
