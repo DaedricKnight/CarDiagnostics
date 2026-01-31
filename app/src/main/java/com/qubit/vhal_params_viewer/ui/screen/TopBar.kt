@@ -15,6 +15,8 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
@@ -34,10 +36,15 @@ import com.qubit.vhal_params_viewer.R
 fun TopBar(
     checked: Boolean,
     onCheckedChange: ((Boolean) -> Unit)? = null,
+    snackbarHostState: SnackbarHostState = SnackbarHostState(),
     onClick: () -> Unit = {},
     content: @Composable (PaddingValues) -> Unit,
 ) {
+
     Scaffold(
+        snackbarHost = {
+            SnackbarHost(hostState = snackbarHostState)
+        },
         topBar = {
             TopAppBar(
                 title = { Text(stringResource(R.string.diagnostics_toggle), color = Color.White) },
@@ -52,7 +59,9 @@ fun TopBar(
                         modifier = Modifier
                             .padding(end = 16.dp)
                             .fillMaxHeight()
-                            .clickable(onClick = onClick),
+                            .clickable(
+                                onClick = onClick,
+                            ),
                     ) {
                         Text(
                             text = if (checked) stringResource(R.string.mock) else stringResource(
