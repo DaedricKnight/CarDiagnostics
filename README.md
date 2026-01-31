@@ -35,8 +35,12 @@ https://github.com/user-attachments/assets/f2ef6825-503a-479b-aa99-4442184ac19d
 
 
 
+Dashboard screen:
 
 
+
+
+https://github.com/user-attachments/assets/0ae2f0c9-5925-45e6-815c-c730a9e1f218
 
 
 
