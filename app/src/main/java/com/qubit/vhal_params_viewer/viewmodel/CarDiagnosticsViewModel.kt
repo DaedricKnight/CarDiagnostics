@@ -1,4 +1,4 @@
-package com.qubit.vhal_params_viewer
+package com.qubit.vhal_params_viewer.viewmodel
 
 import androidx.lifecycle.ViewModel
 import com.qubit.core_vhal.repository.HybridVhalReader
@@ -19,7 +19,7 @@ class CarDiagnosticsViewModel @Inject constructor(
 
     val uiState = vhalReader.carState
 
-    private val _isMockMode = MutableStateFlow(true) // По умолчанию Mock
+    private val _isMockMode = MutableStateFlow(true)
     val isMockMode = _isMockMode.asStateFlow()
 
     fun connect() = vhalReader.connect()

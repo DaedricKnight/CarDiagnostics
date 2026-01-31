@@ -13,7 +13,7 @@ import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class MockVhalReaderImpl @Inject constructor(): VhalReader {
+class MockVhalReaderImpl @Inject constructor() : VhalReader {
     private val _carState = MutableStateFlow(VhalParamsState())
     override val carState: StateFlow<VhalParamsState> = _carState.asStateFlow()
 
@@ -28,6 +28,7 @@ class MockVhalReaderImpl @Inject constructor(): VhalReader {
         mockJob = scope.launch {
             var currentRpm = 800
             var currentGear = 1
+            var fuelLevel = 70000f
 
             while (isActive) {
                 currentRpm += (100..300).random()
@@ -35,13 +36,18 @@ class MockVhalReaderImpl @Inject constructor(): VhalReader {
                     currentRpm = 1500
                     if (currentGear < 6) currentGear++ else currentGear = 1
                 }
-
+                if (fuelLevel > 10000f) {
+                    fuelLevel -= currentRpm.toFloat()
+                } else {
+                    fuelLevel = 70000f
+                }
                 _carState.value = generateVhalParamsState(
                     gear = currentGear,
                     rpm = currentRpm,
+                    fuelLevel = fuelLevel,
+                    speed = (currentRpm / 100).toFloat(),
                     isParkingBrakeOn = false
                 )
-
                 delay(500)
             }
         }
@@ -54,8 +60,11 @@ class MockVhalReaderImpl @Inject constructor(): VhalReader {
     }
 
     private fun generateVhalParamsState(
+        speed: Float = 0f,
         gear: Int = 4,
         rpm: Int = 2500,
+        fuelLevel: Float = 0f,
+        fuelCapacity: Float = 70000f,
         vin: String = "TEST_VIN_777",
         make: String = "BMW",
         model: String = "530d",
@@ -63,9 +72,12 @@ class MockVhalReaderImpl @Inject constructor(): VhalReader {
         tirePressures: Map<Int, Float> = mapOf(1 to 2.4f, 2 to 2.4f, 4 to 2.2f, 8 to 2.2f)
     ): VhalParamsState {
         val state = VhalParamsState(
+            speed = speed,
             gear = gear,
             isParkingBrakeOn = isParkingBrakeOn,
             rpm = rpm,
+            fuelLevel = fuelLevel,
+            fuelCapacity = fuelCapacity,
             tirePressures = tirePressures,
             vin = vin,
             make = make,

@@ -3,6 +3,7 @@ package com.qubit.vhal_params_viewer
 import app.cash.turbine.test
 import com.qubit.core_vhal.VhalParamsState
 import com.qubit.core_vhal.repository.VhalReader
+import com.qubit.vhal_params_viewer.viewmodel.CarDiagnosticsViewModel
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
