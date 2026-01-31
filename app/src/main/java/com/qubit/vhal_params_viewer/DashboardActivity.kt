@@ -5,18 +5,19 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import com.qubit.vhal_params_viewer.ui.screen.DashboardScreen
 import com.qubit.vhal_params_viewer.ui.screen.VhalParamsScreen
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MainActivity: ComponentActivity()  {
-    val permissions = arrayOf("android.car.permission.CAR_ENERGY", "android.car.permission.CAR_TIRES", "android.car.permission.CAR_INFO")
+class DashboardActivity: ComponentActivity()  {
+    val permissions = arrayOf("android.car.permission.CAR_SPEED", "android.car.permission.CAR_TIRES", "android.car.permission.CAR_INFO")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         getPermissions(permissions)
         setContent {
-            VhalParamsScreen()
+            DashboardScreen()
         }
     }
 

@@ -55,4 +55,6 @@
     <string name="param_active_dtcs">Active DTCs</string>
     <string name="param_no_data">No Data</string>
     <string name="param_none">None</string>
+    <string name="toast_no_real_mode">You can\'t change it to real mode.</string>
+    <string name="km_h">Km/h</string>
 </resources>

@@ -5,3 +5,5 @@ import dagger.hilt.android.HiltAndroidApp
 
 @HiltAndroidApp
 class CarDiagnosticsApp : Application()
+
+const val VHAL_DEBUG = "VHAL_DEBUG"

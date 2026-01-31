@@ -14,11 +14,27 @@
         android:theme="@style/Theme.VHAL_params_viewer">
         <activity
             android:name=".MainActivity"
-            android:exported="true" >
+            android:exported="true"
+            android:taskAffinity=".task1"
+            android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
                 <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".DashboardActivity"
+            android:theme="@style/Theme.VHAL_params_viewer"
+            android:label="Dashboard Activity"
+            android:icon="@mipmap/ic_launcher_round"
+            android:taskAffinity=".task2"
+            android:launchMode="singleTask"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
     </application>
@@ -29,6 +45,7 @@
     <uses-permission android:name="android.car.permission.CAR_POWERTRAIN" />
     <uses-permission android:name="android.car.permission.CAR_PARK_BRAKE" />
     <uses-permission android:name="android.car.permission.CAR_ENERGY" />
+    <uses-permission android:name="android.car.permission.CAR_SPEED" />
     <uses-permission android:name="android.car.permission.CAR_TIRES" />
     <uses-permission android:name="android.car.permission.CAR_INFO" />
 </manifest>

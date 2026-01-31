@@ -6,6 +6,7 @@ data class VhalParamsState(
     val odometer: Float = 0f,
     val rpm: Int = 0,
     val range: Float = 0f,
+    val speed: Float = 0f,
 
     val fuelLevel: Float = 0f,
     val isFuelLow: Boolean = false,
