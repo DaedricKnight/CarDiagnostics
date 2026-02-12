@@ -40,6 +40,9 @@ android {
     }
 }
 
+
+val carJarPath = project.findProperty("android.car.jar.path") as String
+
 dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
@@ -51,9 +54,8 @@ dependencies {
     testImplementation(libs.io.mock)
     ksp(libs.hilt.compiler)
     implementation(libs.androidx.lifecycle.runtime.ktx)
-    val carJar = files("${android.sdkDirectory}/platforms/android-33/optional/android.car.jar")
-    compileOnly(carJar)
-    testImplementation(carJar)
+    compileOnly(files("${android.sdkDirectory}/$carJarPath"))
+    testImplementation(files("${android.sdkDirectory}/$carJarPath"))
     testImplementation(libs.coroutines.test)
     testImplementation(libs.robolectric)
 }

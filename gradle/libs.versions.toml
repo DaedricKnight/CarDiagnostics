@@ -19,6 +19,7 @@ mockk = "1.14.9"
 coroutines-test = "1.10.2"
 robolectric = "4.16.1"
 turbine = "1.2.1"
+androidCar = "2.1.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -49,6 +50,7 @@ io-mock = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
 coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutines-test" }
 robolectric = { group = "org.robolectric", name = "robolectric", version.ref = "robolectric" }
 turbine = { group = "app.cash.turbine", name = "turbine", version.ref = "turbine" }
+android-car = { module = "com.google.android.car:car", version.ref = "androidCar" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
