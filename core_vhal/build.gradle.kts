@@ -40,6 +40,13 @@ android {
     }
 }
 
+tasks.register<Jar>("createJar") {
+    from(android.sourceSets["main"].java.srcDirs)
+    from("build/intermediates/javac/release/classes")
+
+    archiveFileName.set("core_vhal.jar")
+    destinationDirectory.set(file("${layout.buildDirectory}/libs"))
+}
 
 val carJarPath = project.findProperty("android.car.jar.path") as String
 
